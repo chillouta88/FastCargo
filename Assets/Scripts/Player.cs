@@ -1,49 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
-{
-    
-    [SerializeField] float steerSpeed = 50f;
-    [SerializeField] float moveSpeed = 40f;
-    [SerializeField] float slowSpeed = 25f;
-    [SerializeField] float crashSpeed = 0f;
-    [SerializeField] float boostSpeed = 45f;
 
+{
+   [SerializeField] float moveSpeed = 0.01f;
+    [SerializeField] float steerSpeed = 0.1f;    
 
     void Start()
     {
         
     }
 
-    
+    // Update is called once per frame
     void Update()
     {
-        float steerAmount = Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
-        float moveAmount = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
-        transform.Rotate(0,0,-steerAmount);    
-        transform.Translate(0,moveAmount,0);
+       float moveAmount = Input.GetAxis("Vertical") * moveSpeed;
+       float steerAmount = Input.GetAxis("Horizontal") * steerSpeed;
+       transform.Translate(0, moveAmount, 0);
+       transform.Rotate(0, 0, -steerAmount);       
     }
-
-    private void OnCollisionEnter2D(Collision2D other) 
-    {
-        moveSpeed = crashSpeed;    
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if (other.tag == "Barier")
-        {
-            moveSpeed = slowSpeed;
-        }
-
-        if (other.tag == "Boost")
-        {
-            moveSpeed = boostSpeed;    
-        }    
-    }
-
-        
-       
 }
